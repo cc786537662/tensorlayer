@@ -1098,7 +1098,10 @@ class DropconnectDenseLayer(Layer):
             b = tf.get_variable(name='b', shape=(n_units), initializer=b_init, **b_init_args )
             self.outputs = act(tf.matmul(self.inputs, W) + b)#, name=name)    # 1.2
 
-        set_keep[name] = tf.placeholder(tf.float32)
+        try:
+            set_keep[name] = tf.placeholder(tf.float32)
+        except:
+            set_keep[name] = tf.placeholder(tf.int32)
         W_dropcon = tf.nn.dropout(W,  set_keep[name])
         self.outputs = act(tf.matmul(self.inputs, W_dropcon) + b)
 
